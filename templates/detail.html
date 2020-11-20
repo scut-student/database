@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>商品详情</title>
+    <style type="text/css">
+        *{margin: 0; padding: 0;}
+        #background{
+            width: 1920px;
+            height: 1080px;
+            background-size: cover;
+            background: linear-gradient(to bottom left, #fed6e3,white, #a8edea);
+        }
+        #background .head{
+            width: 100%;
+            height: 200px;
+        }
+        #background .head .user {
+            float: right;
+            font-size: 26px;
+            border-style:dotted;
+            color:rgb(95, 228, 228);
+            border-radius: 5px;
+            background-color:transparent;
+            margin-right:40px ;
+            padding: 5px;
+            
+        } 
+        #background .head .name{
+            font-size: 26px;
+            border:hidden;
+            color:rgb(95, 228, 228);
+            border-radius: 5px;
+            background-color:transparent;
+            padding: 5px;
+            margin-top: 160px;
+        }
+        /* 以上为抬头部分 */
+        #background .content{
+            height:750px;
+            border-style: dotted;
+            margin-top: 30px;
+            margin-left: 32%;
+            margin-right: 32%;
+            text-align: center;
+            padding:10px;
+            border:1px solid #000;          
+            -moz-box-shadow:3px 3px 4px #000;
+            -webkit-box-shadow:3px 3px 4px #000;
+            box-shadow:3px 3px 4px #000;
+            background-color: transparent;
+            /* background:#fff; */
+            filter:progid:DXImageTransform.Microsoft.Shadow(Strength=4,Direction=135,Color='#000000');
+        }
+        .content .detail{
+            color:rgb(95, 228, 228);
+            font-weight: bolder;
+            font-style: normal;
+            line-height: 70px;
+        }
+        .content .img{
+            padding:10px;
+            border:1px solid #000;          
+            -moz-box-shadow:3px 3px 4px #000;
+            -webkit-box-shadow:3px 3px 4px #000;
+            box-shadow:3px 3px 4px #000;
+            background:#fff;
+            filter:progid:DXImageTransform.Microsoft.Shadow(Strength=4,Direction=135,Color='#000000');
+        }
+        .content .name{
+            font-size: 24px;
+            color:rgb(95, 228, 228);
+            font-weight: bolder;
+            font-style: normal;
+            background-color: transparent;
+            border: transparent;
+            text-align: center;
+            line-height: 70px;
+        }
+        .content .intro{
+            width:300px;
+            height:100px;
+            font-style: normal;
+            font-size: 20px;
+            background-color: transparent;
+            border-style: dotted;
+            vertical-align:top;
+            outline:none；
+        }
+        .content .button{
+            font-size: 20px;
+            color:black;
+            font-style: normal;
+            background-color: transparent;
+            border:dotted;
+            text-align: center;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+<div id="background">
+    <div class="head">
+        <input class="user" id="index" type="button" value="退出登录" onclick=returnPage(this.id)> 
+        <input class="user" id="information" type="button" value="个人信息" onclick=returnPage(this.id)> 
+        <input class="user" id="launch" type="button" value="已发布商品信息" onclick=returnPage(this.id)> 
+        <input class="user" id="issue" type="button" value="发布商品" onclick=returnPage(this.id)> 
+        <input class="user" id='order' type="button" value="我的订单" onclick=returnPage(this.id)>
+        <input class="user" id="trolley" type="button"  value="购物车" onclick=returnPage(this.id)>  
+        <input class="user" id="main" type="button" value="首页" onclick=returnPage(this.id)> 
+        
+        <!-- 注意头像均为200x200px -->
+        <img src="{{headphoto}}" id="headphoto" width = 150x height = 150px align = "left" style="margin-left:150px; margin-top:50px;border-style:dotted;" />
+        <input class = "name" type="button" value="昵称：" size="1" readonly>
+        <input class = "name" type="button" id="user_name" value="{{user_name}} " readonly> 
+        <input class = "name" type="button" id="userID" value="{{userID}}" readonly hidden>
+    </div>
+    <!-- 以上为抬头部分 -->
+    <div class="content">
+        <div class="detail" style="font-size: 50px;">
+            商品详情
+        </div>
+        <br>
+        <input class="name" id="goods_name" value="{{goods_name}}" type="text" size=8 readonly>
+        <br>
+        <img class="img" id="goods_img" src="{{goods_img}}" width = 240px height= 160px style="border-style:dotted;" />
+        <br>
+        <div class="detail" style="font-size: 20px;">
+            单价：
+            <input type="text" id="price" value="{{price}}" size =2 style="font-size: 20px; background-color:transparent;border: transparent;"readonly >
+            ￥
+            <br>
+            库存：
+            <input type="text" id="stock" value="{{stock}}" size =2 style="background-color:transparent;border: transparent;" readonly>
+            件
+            <br>
+            商品介绍：
+            <br>
+        </div>
+        <textarea class="intro" id="introduction" cols="25" rows="6"  maxlength="500" readonly>  
+            "{{introduction}}"
+        </textarea>
+        <input id="balance" type="text" value="" hidden> <!-- 余额 -->
+        <input id="goodID" type="text" value="" hidden>
+        <br><br><br><br>   <!-- 用来调位置，别动 -->
+        <input class= "button" type="button" value="加入购物车" style="float: left;" onclick=add() >
+        <input class="button" type="button" value="立即购买" style="float: right;" onclick=phase()>
+    </div>
+</div>
+<form action="user_information" id="user_form" method="get">
+    <input type="text" name="user_inform" value="" style="display: none;">
+    <input type="text" name="userID" value="" style="display: none;">
+</form>
+<form action="phase" id="phase_form" method="POST">
+    <input type="text" name="goodID" value="" style="display: none;">
+    <input type="text" name="userID" value="" style="display: none;">
+</form>
+<form action="add_shopping" id="add_form" method="POST">
+    <input type="text" name="goodID" value="" style="display: none;">
+    <input type="text" name="userID" value="" style="display: none;">
+</form>
+</body>
+</html>
+
+<script>
+    function returnPage(pageID){
+        var form = document.getElementById("user_form");
+        form.user_inform.value = pageID;
+        var ID = document.getElementById('userID');
+        form.userID.value = ID.value;
+        form.submit();
+    }
+
+    function phase(){
+        var balance = document.getElementById('balance');
+        var price = document.getElementById('price');
+        if(Number(balance) < Number(price)) {
+            alert("余额不足");
+            return;
+        }
+        var form = document.getElementById('phase_form');
+        var goodID = document.getElementById('goodID');
+        var ID = document.getElementById('userID');
+        form.goodID.value = goodID.value;
+        form.userID.value = userID.value;
+        form.submit();
+    }
+    function add(){
+        var form = document.getElementById('add_form');
+        var goodID = document.getElementById('goodID');
+        var ID = document.getElementById('userID');
+        form.goodID.value = goodID.value;
+        form.userID.value = userID.value;
+        form.submit();
+    }
+</script>

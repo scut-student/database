@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>华南理工大学电子商务</title>
+    <style type="text/css">
+        * {margin: 0; padding: 0}
+        li {list-style: none;}
+        a {text-decoration: none;}
+        
+        #background{
+            height: 1080px;
+            width: 1920px;
+            background: linear-gradient(to bottom left, #fed6e3,white, #a8edea);
+            
+        }
+        #background .head{
+            width: 100%;
+            height: 200px;
+        }
+
+        #background .head .user {
+            float: right;
+            font-size: 26px;
+            border-style:dotted;
+            color:rgb(95, 228, 228);
+            border-radius: 5px;
+            background-color:transparent;
+            margin-right:40px ;
+            padding: 5px;
+            
+        } 
+        #background .head .name{
+            font-size: 26px;
+            border:hidden;
+            color:rgb(95, 228, 228);
+            border-radius: 5px;
+            background-color:transparent;
+            padding: 5px;
+            margin-top: 160px;
+        }
+
+        #background .place{
+            width: 100%;
+            height: 60%;
+            
+            text-align: left;
+            font-size: 20px;
+            color: #a8edea;
+            letter-spacing: 5px;
+            margin-left: 800px;
+            line-height: 200%;
+            background: url(../static/images/frame1.png) no-repeat;
+            background-size: 400px 400px;
+            background-position: 380px 60px;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="background">
+        <div class="head">
+            <input class="user" id="index" type="button" value="退出登录" onclick=returnPage(this.id)> 
+            <input class="user" id="information" type="button" value="个人信息" onclick=returnPage(this.id)> 
+            <input class="user" id="launch" type="button" value="已发布商品信息" onclick=returnPage(this.id)> 
+            <input class="user" id="issue" type="button" value="发布商品" onclick=returnPage(this.id)> 
+            <input class="user" id='order' type="button" value="我的订单" onclick=returnPage(this.id)>
+            <input class="user" id="trolley" type="button"  value="购物车" onclick=returnPage(this.id)>  
+            <input class="user" id="main" type="button" value="首页" onclick=returnPage(this.id)>
+            
+            <!-- 注意头像均为200x200px -->
+            <img src="{{headphoto}}" id="headphoto" width = 150x height = 150px align = "left" style="margin-left:150px; margin-top:50px;border-style:dotted;" />
+            <input class = "name" type="button" value="昵称：" size="1" readonly>
+            <input class = "name" type="button" id="user_name" value="{{user_name}} " readonly> 
+            <input class = "name" type="button" id="userID" value="{{userID}}" readonly hidden>
+        </div>
+        <div class="place">
+            <!-- <img src="resource/frame2.png" width="300px" height="100px" style="position: absolute;
+             left: 600px; top: 150px; "> -->
+            <span style="font-size: 40px; position: relative; top: 150px;" >个人信息</span>
+            <br>
+            <img src="{{photo}}" width="200px" height="200px" style=
+            "margin-top: 50px;
+            position: relative;;
+            left: 480px;
+            top: 50px;
+            ">
+            <br>
+            姓名：<span style="font-size: 20px">{{name}}</span>
+            <p/>
+            学号：<span style="font-size: 20px">{{ID}}</span>
+            <p/>
+            性别：<span style="font-size: 20px">{{sex}}</span>
+            <p/>
+            学校：<span style="font-size: 20px">{{school}}</span>
+            <p/>
+            年级：<span style="font-size: 20px">{{year}}</span>
+            <p/>
+            专业：<span style="font-size: 20px">{{major}}</span>
+            <p/>
+            电话：<span style="font-size: 20px">{{phone}}</span>
+            <p/>
+            地址：<span style="font-size: 20px">{{address}}</span>
+            <p/>
+            <input type="button" value="修改信息" id="modification" style=
+            "color: #a8edea; font-size: 25px; margin-top: 50px; margin-left: 50px;">
+            
+        </div>
+    </div>
+    <form action="user_information" id="user_form" method="get">
+        <input type="text" name="user_inform" value="" style="display: none;">
+        <input type="text" name="userID" value="" style="display: none;">
+    </form>
+</body>
+</html>
+
+<script>
+    function returnPage(pageID){
+        var form = document.getElementById("user_form");
+        form.user_inform.value = pageID;
+        var ID = document.getElementById('userID');
+        form.userID.value = ID.value;
+        form.submit();
+    }
+</script>

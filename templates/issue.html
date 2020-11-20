@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>发布商品</title>
+    <script src="/static/resource/jquery-3.5.1.min.js"></script>
+    <style type="text/css">
+        *{margin: 0; padding: 0;}
+        #background{
+            width: 1920px;
+            height: 1080px;
+            background-size: cover;
+            background: linear-gradient(to bottom left, #fed6e3,white, #a8edea);
+        }
+        #background .head{
+            width: 100%;
+            height: 200px;
+        }
+        #background .head .user {
+            float: right;
+            font-size: 26px;
+            border-style:dotted;
+            color:rgb(95, 228, 228);
+            border-radius: 5px;
+            background-color:transparent;
+            margin-right:40px ;
+            padding: 5px;
+            
+        } 
+        #background .head .name{
+            font-size: 26px;
+            border:hidden;
+            color:rgb(95, 228, 228);
+            border-radius: 5px;
+            background-color:transparent;
+            padding: 5px;
+            margin-top: 160px;
+        }
+        /* 以上为抬头部分 */
+        #background .content{
+            height:800px;
+            border-style: dotted;
+            margin-top: 30px;
+            margin-left: 32%;
+            margin-right: 32%;
+            text-align: center;
+            padding:10px;
+            border:1px solid #000;          
+            -moz-box-shadow:3px 3px 4px #000;
+            -webkit-box-shadow:3px 3px 4px #000;
+            box-shadow:3px 3px 4px #000;
+            background-color: transparent;
+            /* background:#fff; */
+            filter:progid:DXImageTransform.Microsoft.Shadow(Strength=4,Direction=135,Color='#000000');
+        }
+        .content .detail{
+            color:rgb(95, 228, 228);
+            font-weight: bolder;
+            font-style: normal;
+            line-height: 70px;
+        }
+        .content .img{
+            width:240px ;
+            height:160px;
+            padding:10px;
+            border:1px solid #000;          
+            -moz-box-shadow:3px 3px 4px #000;
+            -webkit-box-shadow:3px 3px 4px #000;
+            box-shadow:3px 3px 4px #000;
+            background:#fff;
+            filter:progid:DXImageTransform.Microsoft.Shadow(Strength=4,Direction=135,Color='#000000');
+        }
+        .content .name{
+            font-size: 24px;
+            color:rgb(95, 228, 228);
+            font-weight: bolder;
+            font-style: normal;
+            background-color: transparent;
+            border: transparent;
+            text-align: center;
+            line-height: 70px;
+        }
+        .content .intro{
+            width:300px;
+            height:100px;
+            font-style: normal;
+            font-size: 20px;
+            background-color: transparent;
+            border-style: dotted;
+            vertical-align:top;
+            outline:none；
+        }
+        .content .select{
+            font-size:20px;
+            background-color:transparent;
+            border: transparent;
+            color:rgb(95, 228, 228);
+            font-weight: bolder;
+            border-style: dotted;
+
+        }
+        .content .button{
+            color:rgb(95, 228, 228);
+            font-size:24px;
+            font-style: normal;
+            background-color: transparent;
+            border:dotted;
+            text-align: center;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+<div id="background">
+    <div class="head">
+        <input class="user" id="index" type="button" value="退出登录" onclick=returnPage(this.id)> 
+        <input class="user" id="information" type="button" value="个人信息" onclick=returnPage(this.id)> 
+        <input class="user" id="launch" type="button" value="已发布商品信息" onclick=returnPage(this.id)> 
+        <input class="user" id="issue" type="button" value="发布商品" onclick=returnPage(this.id)> 
+        <input class="user" id='order' type="button" value="我的订单" onclick=returnPage(this.id)>
+        <input class="user" id="trolley" type="button"  value="购物车" onclick=returnPage(this.id)>  
+        <input class="user" id="main" type="button" value="首页" onclick=returnPage(this.id)> 
+        
+        <!-- 注意头像均为200x200px -->
+        <img src="{{headphoto}}" id="headphoto" width = 150x height = 150px align = "left" style="margin-left:150px; margin-top:50px;border-style:dotted;" />
+        <input class = "name" type="button" value="昵称：" size="1" readonly>
+        <input class = "name" type="button" id="user_name" value="{{user_name}} " readonly> 
+        <input class = "name" type="button" id="userID" value="{{userID}}" readonly hidden>
+    </div>
+    <!-- 以上为抬头部分 -->
+    <div class="content">
+        <div class="detail" style="font-size: 50px;">
+            发布商品
+        </div>
+        <br>
+        <input class="name" id="input_name" value="请输入商品名称" type="text" size=10 >
+        <br>
+        <form action="launch" id="launch_form" enctype="multipart/form-data" method="POST">
+            <input type="text" name="name" value="" style="display: none;">
+            <input type="text" name="price" value="" style="display: none;">
+            <input type="text" name="number" value="" style="display: none;">
+            <input type="text" name="type" value="" style="display: none;">
+            <input type="text" name="intro" value="" style="display: none;">
+            <input type="file" name="image">
+            <input type="text" name="userID" value="" style="display: none;">
+        </form>
+        <br>
+        <div class="detail" style="font-size: 20px;">
+            单价：
+            <input type="text" id="input_price" size =2 style="font-size:20px;background-color:transparent;" >
+            ￥
+            <br>
+            数量：
+            <input type="text" id="input_number" size =2 style="font-size:20px;background-color:transparent;" >
+            件
+            <br>
+            类别：
+            <select class="select" id="input_type">
+                <option value="">-请选择-</option>
+                <option value="food">食品</option>
+                <option value="daily">日用品</option>
+                <option value="electronic">数码</option>
+                <option value="book">书籍</option>
+                <option value="other">其它</option>
+            </select>
+            <!-- <input type="text" size =2 style="font-size:20px;background-color:transparent;border: transparent;" > -->
+            <br>
+            商品介绍：
+            <br>
+        </div>
+        <textarea id="input_introduction" class="intro" cols="25" rows="6"  maxlength="500" style="color:rgb(33, 114, 114);">  添加商品详细信息，可使售出概率大大提升哟！！
+        </textarea>
+        <br><br><br>   <!-- 用来调位置，别动 -->
+        <input class= "button" type="button" value="发布" style="float: left;" onclick=launch()>
+        <input class="button" type="button" name="main" value="取消" style="float: right;" onclick=returnPage(this.name);>
+    </div>
+</div>
+<form action="user_information" id="user_form" method="get">
+    <input type="text" name="user_inform" value="" style="display: none;">
+    <input type="text" name="userID" value="" style="display: none;">
+</form>
+</body>
+</html>
+<script>
+    function returnPage(pageID){
+        var form = document.getElementById("user_form");
+        form.user_inform.value = pageID;
+        var ID = document.getElementById('userID');
+        form.userID.value = ID.value;
+        form.submit();
+    }
+
+    function launch(){
+        var name = document.getElementById('input_name');
+        var price = document.getElementById('input_price');
+        var number = document.getElementById('input_number');
+        var type = document.getElementById('input_type');
+        var intro = document.getElementById('input_introduction');
+        var user = document.getElementById('userID')
+        if(name.value == ""){
+            alert("请输入名称");
+            return;
+        }
+        if(price.value == ""){
+            alert("请输入价格");
+            return;
+        }
+        if(number.value == ""){
+            alert("请输入数量");
+            return;
+        }
+        if(type.value == ""){
+            alert("请选择类别");
+            return;
+        }
+        if(intro.value == ""){
+            alert("请输入详情");
+            return;
+        }
+        var form = document.getElementById('launch_form');
+        form.name.value = name.value;
+        form.price.value = price.value;
+        form.number.value = number.value;
+        form.intro.value = intro.value;
+        form.type.value = type.value;
+        form.userID.value = user.value;
+        // form.image = $("[name='img']").prop('files')[0];
+        // alert($("[name='img']").prop('files')[0]);
+        form.submit();
+    }
+</script>

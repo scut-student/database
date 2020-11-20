@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        /*style of register*/
+        * {margin: 0; padding: 0}
+        #register {
+            width: 100%;
+            height: 800px;
+            background: linear-gradient(to bottom left, #fed6e3,white, #a8edea);
+            text-align: center;
+            padding-top: 60px;
+            display: block;
+        }
+        #register input {
+            margin-top: 30px;
+            width: 260px;
+            margin-left: 30px;
+            padding: 8px;
+            border-radius: 15px;
+            border-style: none;
+            outline: none;
+        }
+        #register button {
+            margin-top: 30px;
+            width: 100px;
+            margin-left: 20px;
+            padding: 8px;
+            border-radius: 15px;
+            border-style: none;
+            outline: none;
+        }
+
+        #register select {
+            margin-top: 30px;
+            width: 100px;
+            margin-left: 30px;
+            padding: 3px;
+            border-radius: 8px;
+            border-style: none;
+        }
+    </style>
+    <script src="../static/resource/jquery-3.5.1.min.js"></script>
+</head>
+<body>
+<div id="register">
+        <span style="font-size: 30px">修改信息</span>
+        <br>
+        <br>
+        <img src="{{headphoto}}" id="headphoto" width = 100x height = 100px align = "center" >
+        <form action="change" id="change_form" enctype="multipart/form-data" method="POST">
+                <input type="text" name="name" value="" style="display: none;">
+                <input type="text" name="passwd" value="" style="display: none;">
+                <input type="text" name="college" value="" style="display: none;">
+                <input type="text" name="major" value="" style="display: none;">
+                <input type="file" name="headphoto">
+                <input type="text" name="sex" value="" style="display: none;">
+                <input type="text" name="address" value="" style="display: none;">
+        </form>
+        姓名<input type="text" id="input_name" > 
+        <p/>
+        学号<input type="text" id="input_studentId" value="{{studentID}}" disabled=true>
+        <p/>
+        手机号<input type="text" id="input_phone" style="margin-right: 13px" value="{{phone_number}}" disabled=true>
+        <p/>
+        密码<input type="password" id="input_passwd" placeholder="不少于10个字符">
+        <p/>
+        确认密码<input type="password" id="input_d_passwd" style="margin-right: 25px">
+        <p/>
+        地址<input type="text" id="input_address" style="margin-right: 25px">
+        <br>
+        学校<select id="input_college">
+        <option value="">-请选择-</option>
+        <option value="华南理工大学">华南理工大学</option>
+        <option value="中山大学">中山大学</option>
+        <option value="暨南大学">暨南大学</option>
+        </select>
+        专业<select id="input_major">
+        <option value="">-请选择-</option>
+        <option value="计算机科学与技术">计算机科学与技术</option>
+        <option value="软件工程">软件工程</option>
+        <option value="信息安全">信息安全</option>
+        </select>
+        <p/>
+        <form>
+                
+        </form>
+        性别:  <input type="radio" name="sex" id="input_sex_boy" value="boy" style="width: fit-content; height: fit-content">
+        <span>男</span> <input type="radio" name="sex" id="input_sex_girl" value="girl" style="width: fit-content; height: fit-content">女
+        <p/>
+        <input type="button" value="确定" onclick="doRegister()">
+        <input type="button" value="取消" onclick="javascript :history.back(-1);">
+</div>
+
+<script>
+    function doRegister()
+    {
+        var name = document.getElementById('input_name')
+        var password = document.getElementById("input_passwd")
+        var d_password = document.getElementById("input_d_passwd")
+        var college = document.getElementById("input_college")
+        var major = document.getElementById("input_major")
+        var sex_boy = document.getElementById("input_sex_boy")
+        var sex_girl = document.getElementById("input_sex_girl")
+        var address = document.getElementById("input_address")
+        if(name.value == "") {
+                alert("请输入姓名")
+                return
+        }
+        if(password.value == ""){
+                alert("请输入密码")
+                return
+        }
+        if(d_password.value == ""){
+                alert("请确认密码")
+                return
+        }
+        if(college.value == ""){
+                alert("请选择学校")
+                return
+        }
+        if(major.value == ""){
+                alert("请选择专业")
+                return
+        }
+        if(address.value == ""){
+                alert("请输入地址")
+                return
+        }
+        if(password.value != d_password.value){
+                alert("两次密码输入不同")
+                return
+        }
+        if(password.value.length < 10){
+                alert("密码长度不足")
+                return
+        }
+        if(sex_boy.checked == false && sex_girl.checked == false){
+                alert("请选择性别")
+                return
+        }
+        var form = document.getElementById('change_form')
+        form.name.value = name.value
+        form.passwd.value = password.value
+        form.college.value = college.value
+        form.major.value = major.value
+        form.sex.value = sex_boy.checked?sex_boy.value:sex_girl.value
+        form.address.value = address.value
+        form.submit()
+    }
+</script>
+</body>
+</html>

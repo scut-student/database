@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        /*style of register*/
+        * {margin: 0; padding: 0}
+        #register {
+            width: 100%;
+            height: 600px;
+            background: linear-gradient(to bottom left, #fed6e3,white, #a8edea);
+            text-align: center;
+            padding-top: 60px;
+            display: block;
+        }
+        #register input {
+            margin-top: 30px;
+            width: 260px;
+            margin-left: 30px;
+            padding: 8px;
+            border-radius: 15px;
+            border-style: none;
+            outline: none;
+        }
+        #register button {
+            margin-top: 30px;
+            width: 100px;
+            margin-left: 20px;
+            padding: 8px;
+            border-radius: 15px;
+            border-style: none;
+            outline: none;
+        }
+
+        #register select {
+            margin-top: 30px;
+            width: 100px;
+            margin-left: 30px;
+            padding: 3px;
+            border-radius: 8px;
+            border-style: none;
+        }
+    </style>
+    <script src="lib/jquery-3.5.1.min.js"></script>
+</head>
+<body>
+<div id="register">
+        <span style="font-size: 30px">欢迎注册</span>
+        <br>
+        姓名<input type="text" name="name">
+        <p/>
+        学号<input type="text" name="studentId">
+        <p/>
+        手机号<input type="text" name="phone" style="margin-right: 13px">
+        <p/>
+        密码<input type="password" name="passwd" placeholder="不少于10个字符">
+        <p/>
+        确认密码<input type="password" name="d_passwd" style="margin-right: 25px">
+        <p/>
+        验证码<input type="text" name="verify_code" style="width: 100px">
+        <input type="button" onclick="getVerifyCode(this)" value="获取验证码" style="width: 100px; margin-left: 20px">
+        <br>
+        学校<select name="college">
+        <option></option>
+        <option value="华南理工大学">华南理工大学</option>
+        <option value="中山大学">中山大学</option>
+        <option value="暨南大学">暨南大学</option>
+        </select>
+        专业<select name="major">
+        <option></option>
+        <option value="计算机科学与技术">计算机科学与技术</option>
+        <option value="软件工程">软件工程</option>
+        <option value="信息安全">信息安全</option>
+        </select>
+        <p/>
+        性别:  <input type="radio" name="sex" value="boy" style="width: fit-content; height: fit-content">
+        <span>男</span> <input type="radio" name="sex" value="girl" style="width: fit-content; height: fit-content">女
+        <p/>
+        <input type="button" value="确定" onclick="doRegister()">
+        <form id="reg"/>
+</div>
+
+<script>
+
+//help function
+    num = 60;
+    function setTime(obj) {
+        if (!num) {
+            obj.removeAttribute("disabled");
+            obj.value = "获取验证码";
+            num = 60;
+            return;
+        } else {
+            obj.setAttribute("disabled", true);
+            obj.value = "重新发送(" + num + ")";
+            num--;
+        }
+        setTimeout(function () {
+            setTime(obj)
+        }, 1000)
+    }
+    function check(data)
+    {
+        var map = {"name":"姓名",
+                "studentId":"学号",
+                "phone":"手机号",
+                "passwd":"密码",
+                "d_passwd":"确认密码",
+                "verify_code":"验证码",
+                "college":"学校",
+                "major":"专业",
+                "sex":"性别"};
+        var k = true;
+        for(var key in data)
+        {
+                if(data[key] == "")
+                {
+                        k = false;
+                        alert("请填写" + map[key]);
+                        break;
+                }
+        }
+        if(k)
+        {
+                if(data.passwd.length < 10) {
+                        alert("密码不符合要求");
+                        k = false;
+                }
+                k = data.passwd == data.d_passwd;
+                if(!k) {
+                        alert("密码确认输入错误");
+                        k = false;
+                }
+        }
+        return k;
+    }
+
+//use function
+    function getVerifyCode(obj)
+    {
+        var phone = document.getElementsByName("phone").item(0).value;
+        if(phone.toString().length != 11 || phone.toString().charAt(0) != '1') {
+                alert("手机号不符合要求")
+        }
+        else {
+                setTime(obj);
+                $.ajax({
+                        url:"send",
+                        data: "phone="+phone,
+                        type:"post",
+                        success: function (data) {
+                                if(data)
+                                {
+                                        alert(data);
+                                }
+                        },
+                        dataType:"text"
+                })
+        }
+    }
+    function doRegister()
+    {
+        var data = {
+                "name":document.getElementsByName("name").item(0).value,
+                "studentId":document.getElementsByName("studentId").item(0).value,
+                "phone":document.getElementsByName("phone").item(0).value,
+                "passwd":document.getElementsByName("passwd").item(0).value,
+                "d_passwd":document.getElementsByName("d_passwd").item(0).value,
+                "verify_code":document.getElementsByName("verify_code").item(0).value,
+                "college":document.getElementsByName("college").item(0).value,
+                "major":document.getElementsByName("major").item(0).value,
+                "sex":document.getElementsByName("sex").item(0).value
+        };
+        if(check(data))
+        {
+                $.ajax({
+                        url:"register",
+                        data:JSON.stringify(data),
+                        type: "post",
+                        contentType: "application/json; charset=utf-8",
+                        success: function (message) {
+                                if(message == "success") {
+                                        alert("注册成功");
+                                        var form = document.getElementById("reg");
+                                        form.action = "index.html";
+                                        form.method = "get";
+                                        form.submit();
+                                }
+                                else {
+                                        alert("验证码错误");
+                                }
+                        },
+                        dataType: "text"
+                })
+        }
+    }
+</script>
+</body>
+</html>

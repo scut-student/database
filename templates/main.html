@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>华南理工大学电子商务</title>
+    <style type="text/css">
+        * {margin: 0; padding: 0}
+        li {list-style: none;}
+        a {text-decoration: none;}
+
+        #background{
+            height: 1080px;
+            width: 1920px;
+            background: linear-gradient(to bottom left, #fed6e3,white, #a8edea);
+        }
+        #background .head{
+            width: 100%;
+            height: 200px;
+        }
+
+        #background .head .user {
+            float: right;
+            font-size: 26px;
+            border-style:dotted;
+            color:rgb(95, 228, 228);
+            border-radius: 5px;
+            background-color:transparent;
+            margin-right:40px ;
+            padding: 5px;
+            
+        } 
+        #background .head .name{
+            font-size: 26px;
+            border:hidden;
+            color:rgb(95, 228, 228);
+            border-radius: 5px;
+            background-color:transparent;
+            padding: 5px;
+            margin-top: 160px;
+        }
+
+        #background .index{
+            width: 100%;
+            height: 60px;
+            margin-top: 50px;
+        }
+        .index .search{
+            float: right;
+            width: 500px;
+            height: 100%;
+            font-family: 微软雅黑,宋体,Arial,Helvetica,Verdana,sans-serif;
+        }
+        .index .kind{
+            float: left;
+            height: 100%;
+            width: 1420px;
+        }
+        /* display some items in the database*/
+        #background .place{
+            width: 100%;
+            height: 680px;
+            align-self: center;
+            overflow: hidden;
+            background: url(../static/images/frame.png) no-repeat center;
+            background-size: 1000px 740px;
+
+        }
+
+        a:link{
+            color: rgb(49, 224, 224);
+            text-decoration: underline;
+        }
+        a:visited{
+            color: rgb(49, 224, 224);
+            text-decoration: underline;
+        }
+
+        @keyframes fade{
+            from {opacity: 0;}
+            to {opacity: 1;}
+        }
+        @-webkit-keyframes fade{
+            from {opacity: 0;}
+            to {opacity: 1;}
+        }
+
+    </style>
+    
+</head>
+<body>
+    <div id=background>
+        <div class="head">
+            <input class="user" id="index" type="button" value="退出登录" onclick=returnPage(this.id)> 
+            <input class="user" id="information" type="button" value="个人信息" onclick=returnPage(this.id)> 
+            <input class="user" id="launch" type="button" value="已发布商品信息" onclick=returnPage(this.id)> 
+            <input class="user" id="issue" type="button" value="发布商品" onclick=returnPage(this.id)> 
+            <input class="user" id='order' type="button" value="我的订单" onclick=returnPage(this.id)>
+            <input class="user" id="trolley" type="button"  value="购物车" onclick=returnPage(this.id)>  
+            <input class="user" id="main" type="button" value="首页" onclick=returnPage(this.id)> 
+            
+            <!-- 注意头像均为200x200px -->
+            <img src="{{headphoto}}" id="headphoto" width = 150x height = 150px align = "left" style="margin-left:150px; margin-top:50px;border-style:dotted;" />
+            <input class = "name" type="button" value="昵称：" size="1" readonly>
+            <input class = "name" type="button" id="user_name" value="{{user_name}} " readonly> 
+            <input class = "name" type="button" id="userID" value="{{userID}}" readonly hidden>
+        </div>
+        <div class="index">
+            <div class="search">
+                <input type="search" id="searchInput"  style="width: 350px; height: 100%; font-size: 20px; border-color: #a8edea; border-style: double;">
+                <input type="button" id="searchClick" value="搜索" style="width: 100px; height: 100%; font-size: 20px; 
+                 border-color: #a8edea; border-style: double; color: #a8edea;background: white;" onclick=searchText()>
+            </div>
+            <div class="kind">
+                <a id="food"  style="cursor: pointer; color:rgb(95, 228, 228); padding: 15px; text-align: center; font-size: 20px; float: left; width: 20%; height: 100%;" onclick=searchType(this.id)>食品</a>
+                <a id="electronic" style="cursor: pointer; color:rgb(95, 228, 228); padding: 15px;text-align: center; font-size: 20px; float: left; width: 20%; height: 100%;" onclick=searchType(this.id)>数码</a>
+                <a id="daily" style="cursor: pointer; color:rgb(95, 228, 228); padding: 15px;text-align: center; font-size: 20px; float: left; width: 20%; height: 100%;" onclick=searchType(this.id)>日用品</a>
+                <a id="book" style="cursor: pointer; color:rgb(95, 228, 228); padding: 15px;text-align: center; font-size: 20px; float: left; width: 20%; height: 100%;" onclick=searchType(this.id)>书籍</a>
+
+            </div>
+        </div>
+        <div class="place" align="center">
+            <img src="{{imsrc.0}}" id="photo" width="560px" height="480px" style="
+            animation: fade 2s;
+            -webkit-animation: fade 2s;
+            cursor: pointer;
+            margin-top: 120px;
+            " onclick="window.location.href='detail.html'">
+        </div>
+
+
+        </div>
+    
+    </div>
+    <form action="detail_information" id="picture_form" method="get">
+        <input type="text" name="picture" value="" style="display: none;">
+        <input type="text" name="userID" value="" style="display: none;">
+    </form>
+    <form action="type_search" id="type_form" method="get">
+        <input type="text" name="goods_type" value="" style="display: none;">
+        <input type="text" name="userID" value="" style="display: none;">
+    </form>
+    <form action="text_search" id="text_form" method="get">
+        <input type="text" name="input_text" value="" style="display: none;">
+        <input type="text" name="userID" value="" style="display: none;">
+    </form>
+    <form action="user_information" id="user_form" method="get">
+        <input type="text" name="user_inform" value="" style="display: none;">
+        <input type="text" name="userID" value="" style="display: none;">
+    </form>
+</body>
+<script>
+    window.onload=function(){
+        var img=document.getElementById('photo');
+        var timer = setInterval(change, 4000);
+        var image = new Array;
+        var n = 1;
+        image[0] = '{{imsrc.0}}';
+        image[1] = '{{imsrc.1}}';
+        image[2] = '{{imsrc.2}}';
+        image[3] = '{{imsrc.3}}';
+        image[4] = '{{imsrc.4}}';
+        image[5] = '{{imsrc.5}}';
+        image[6] = '{{imsrc.6}}';
+        image[7] = '{{imsrc.7}}';
+        image[8] = '{{imsrc.8}}';
+        image[9] = '{{imsrc.9}}';
+
+
+        function change(){
+            n = n + 1;
+            if(n > 10) n = 1;
+            img.src= image[n];
+        }
+        img.addEventListener('mousemove', function(){
+            clearInterval(timer);
+        })
+        img.addEventListener('mouseout', function(){
+            timer = setInterval(change, 4000);
+        })
+
+        img.addEventListener('click', function(){
+            var form = document.getElementById("picture_form");
+            var img=document.getElementById('photo');
+            var ID = document.getElementById('userID');
+            form.userID.value = ID.value;
+            var s = img.src
+            form.picture.value = s;
+            form.submit();
+            //window.location.href='#';
+            // var img=document.getElementById('photo')
+            // var s = img.src
+            // $.ajax({
+            //     url:"send",
+            //     data: {picture:s},
+            //     type:"get",
+            //     success: function (data) {
+            //         alert(data)
+            //     },
+            //     dataType:"json"
+            // })
+        })
+
+    }
+    function searchType(id){ // id为需要寻找的商品的类型
+        var form = document.getElementById("type_form");
+        form.goods_type.value = id; 
+        var ID = document.getElementById('userID');
+        form.userID.value = ID.value;
+        form.submit();
+    }
+
+    function searchText(){
+        var input = document.getElementById("searchInput");
+        var form = document.getElementById("text_form");
+        if (input.value == "")
+            alert("搜索栏为空")
+        else{
+            var ID = document.getElementById('userID');
+            form.userID.value = ID.value;
+            form.input_text.value = input.value;
+            form.submit();
+        }
+    }
+
+    function returnPage(pageID){
+        var form = document.getElementById("user_form");
+        form.user_inform.value = pageID;
+        var ID = document.getElementById('userID');
+        form.userID.value = ID.value;
+        form.submit();
+    }
+</script>
+</html>

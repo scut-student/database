@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>购物车</title>
+    <script src="../static/resource/jquery-3.5.1.min.js"></script>
+    <style type="text/css">
+        *{margin: 0; padding: 0;}
+        #background{
+            width: 1920px;
+            height: 1080px;
+            background-size: cover;
+            background-image: url(../static/images/searchResultBack.png);
+        }
+        #background .head{
+            width: 100%;
+            height: 200px;
+        }
+
+        #background .head .user {
+            float: right;
+            font-size: 26px;
+            border-style:dotted;
+            color:rgb(95, 228, 228);
+            border-radius: 5px;
+            background-color:transparent;
+            margin-right:40px ;
+            padding: 5px;
+            
+        } 
+        #background .head .name{
+            font-size: 26px;
+            border:hidden;
+            color:rgb(95, 228, 228);
+            border-radius: 5px;
+            background-color:transparent;
+            padding: 5px;
+            margin-top: 160px;
+        }
+        /* 以上为抬头部分 */
+        #background .result{
+            width:50%;
+            height:600px;
+            margin-top: 175px;
+            margin-left: 24%;
+            margin-right: 25%;
+            background-color:transparent;
+            /* border-style: dotted; */
+        }
+        .result .number{
+            text-align: center;
+            font-size: 20px;
+            font-style:normal;
+            font-weight: bolder;
+            color:rgb(95, 228, 228);
+        }
+        .result .number1{
+            text-align: center;
+            font-size: 20px;
+            font-style:normal;
+            font-weight: bolder;
+            color:rgb(95, 228, 228);
+            background-color: transparent;
+            border: transparent;
+        }
+        .result .Border{
+            margin-left: 10%;
+            margin-right: 10%;
+        }
+        .result .li{
+            border:hidden ;
+            width:100%;
+            height:150px;
+        }
+        .li .left{
+            width:35%;
+            float:left;
+            border:hidden;
+        }
+        .li .right{
+            width:30%;
+            height:100%;
+            float: left;
+            border:hidden;
+            font-size: 25px;
+            color:rgb(95, 228, 228);
+            font-style:normal;
+            font-weight: bolder;
+            text-align: center;
+            line-height: 150px;
+            /* display: inline-block; */
+        }
+        .right .input{
+            border:hidden;
+            font-size: 25px;
+            color:rgb(95, 228, 228);
+            font-style:normal;
+            font-weight: bolder;
+            background-color: transparent;
+        }
+        .result .bottom{
+            margin-bottom: 5%;
+            white-space: nowrap;
+        }
+        .bottom .help{
+            width: 100%;
+            height:65px;
+            background-color: transparent;
+        }
+        .bottom .button{
+            border-radius: 5px;
+            font-size: 20px;
+            color:rgb(95, 228, 228);
+            font-style:normal;
+            border-style: dotted;
+            background-color: transparent;
+        }
+        .bottom .middle{
+            width: 80%;
+            float:left;
+            border:hidden;
+            font-size: 24px;
+            color:rgb(95, 228, 228);
+            font-style:normal;
+            background-color: transparent;
+            text-align: center;
+        }
+ 
+    </style>
+</head>
+<body>
+    <div id="background">
+        <div class="head">
+            <input class="user" id="index" type="button" value="退出登录" onclick=returnPage(this.id)> 
+            <input class="user" id="information" type="button" value="个人信息" onclick=returnPage(this.id)> 
+            <input class="user" id="launch" type="button" value="已发布商品信息" onclick=returnPage(this.id)> 
+            <input class="user" id="issue" type="button" value="发布商品" onclick=returnPage(this.id)> 
+            <input class="user" id='order' type="button" value="我的订单" onclick=returnPage(this.id)>
+            <input class="user" id="trolley" type="button"  value="购物车" onclick=returnPage(this.id)>  
+            <input class="user" id="main" type="button" value="首页" onclick=returnPage(this.id)> 
+            
+            <!-- 注意头像均为200x200px -->
+            <img src="{{headphoto}}" id="headphoto" width = 150x height = 150px align = "left" style="margin-left:150px; margin-top:50px;border-style:dotted;" />
+            <input class = "name" type="button" value="昵称：" size="1" readonly>
+            <input class = "name" type="button" id="user_name" value="{{user_name}} " readonly> 
+            <input class = "name" type="button" id="userID" value="{{userID}}" readonly hidden>
+        </div>
+        <!-- 以上为抬头 -->
+        <div class="result">
+            <div class="number">
+                <!-- 这部分显示共多少件商品 -->
+                共
+                <input class="number1" id="goods_number" size =1 type="text" readonly>
+                件 
+            </div>
+            <img class ="Border" src="../static/images/border.png"/>
+            <ul border=1px>
+                <li class="li" id="good0">
+                    <div  class="left">
+                        <img id="good0_photo" src="commodity.png" width = 180px height= 140px style="float:right; vertical-align:middle; cursor: pointer;"  onclick=goods_detail(this.name)>
+                    </div>
+                    <div class ="right">
+                        商品名称：
+                        <input id="good0_name" class="input" type="text" size=5  readonly>
+                    </div>
+                    <div class ="right">
+                        价格：
+                        <input id="good0_price" class="input" type="text" size=5 readonly>
+                    </div>
+                </li>
+                <img class ="Border" src="../static/images/border.png"/>
+                <li class="li" id="good1">
+                    <div  class="left">
+                        <img id="good1_photo" src="commodity.png" width = 180px height= 140px style="float:right; vertical-align:middle; cursor: pointer;"onclick=goods_detail(this.name)>
+                    </div>
+                    <div class ="right">
+                        商品名称：
+                        <input id="good1_name" class="input" type="text" size=5  readonly>
+                    </div>
+                    <div class ="right">
+                        价格：
+                        <input id="good1_price" class="input" type="text" size=5 readonly>
+                    </div>
+                </li>
+                <img class ="Border" src="../static/images/border.png"/>
+                <li class="li" id="good2">
+                    <div  class="left">
+                        <img id="good2_photo" src="commodity.png" width = 180px height= 140px style="float:right; vertical-align:middle; cursor: pointer;"onclick=goods_detail(this.name)>
+                    </div>
+                    <div class ="right">
+                        商品名称：
+                        <input id="good2_name" class="input" type="text" size=5  readonly>
+                    </div>
+                    <div class ="right">
+                        价格：
+                        <input id="good2_price" class="input" type="text" size=5 readonly>
+                    </div>
+                </li>
+                <img class ="Border" src="../static/images/border.png"/>
+            </ul>
+            <div class="bottom">
+                <div class ="help">
+                    <!-- 用于调格式，留空白 -->
+                </div>
+                <input class="button" id="last_button" type="button" value="上一页" readonly style="float: left;" onclick=lastPage()> 
+                <div class="middle">
+                    第<input id="current_number"  size=2 type="text" style="font-size: 20px; color:rgb(95, 228, 228); text-align: center; background-color: transparent;border: transparent;"readonly>页
+                    共<input id="page_number"  size=2 type="text" style="font-size: 20px; color:rgb(95, 228, 228); text-align: center; background-color: transparent;border: transparent;"readonly>页
+                </div>
+                <input class="button" id="next_button" type="button" value="下一页" style="float: right;" onclick=nextPage() readonly>
+            </div>
+
+        </div>
+    </div>
+    <form action="user_information" id="user_form" method="get">
+        <input type="text" name="user_inform" value="" style="display: none;">
+        <input type="text" name="userID" value="" style="display: none;">
+    </form>
+    <form action="detail_information" id="picture_form" method="get">
+        <input type="text" name="goods_ID" value="" style="display: none;">
+        <input type="text" name="userID" value="" style="display: none;">
+    </form>
+</body>
+</html>
+
+<script>
+    function returnPage(pageID){
+        var form = document.getElementById("user_form");
+        form.user_inform.value = pageID;
+        var ID = document.getElementById('userID');
+        form.userID.value = ID.value;
+        form.submit();
+    }
+
+    var json = {"goods": [
+        {"name": "computer1", "price": "3000", "number": "5", "total_price": "15000", "goods_ID": "1"}, 
+        {"name": "computer2", "price": "3000", "number": "5", "total_price": "15000", "goods_ID": "1"}, 
+        {"name": "computer3", "price": "3000", "number": "5", "total_price": "15000", "goods_ID": "1"}, 
+        {"name": "phone1", "price": "2000", "number": "3", "total_price": "6000", "goods_ID": "2"},
+        {"name": "phone2", "price": "2000", "number": "3", "total_price": "6000", "goods_ID": "2"}
+        ]}
+
+    var goods_list = []
+
+    function init(){
+        $.ajax({
+            url:"search",
+            data: {},
+            type:"get",
+            success: function (data) {
+                json = typeof data == 'string'?JSON.parse(data):data //判断是否为json还是string
+            },
+            dataType:"json"
+        })
+
+        var goods_number = document.getElementById('goods_number');
+        var page_number = document.getElementById('page_number');
+        var current_page = document.getElementById('current_number');
+        current_page.value = 1;
+        goods_list = json.goods;
+        goods_number.value = goods_list.length;
+        page_number.value = Math.ceil(goods_list.length/3);
+        for(var i = 0; i < 3; ++i){
+            if(i >= goods_list.length) {
+                for(; i < 3; ++i){
+                    var good = document.getElementById('good'+i);
+                    good.style.visibility="hidden";
+                }
+                break;
+            }
+            var good_name = document.getElementById('good'+i+'_name');
+            var good_price = document.getElementById('good'+i+'_price');
+            var good_photo = document.getElementById('good'+i+'_photo');
+            good_name.value = goods_list[i].name;
+            good_price.value = goods_list[i].price;
+            good_photo.name = goods_list[i].goods_ID;
+        }
+        var button = document.getElementById('last_button');
+        button.style.visibility = "hidden";
+        if(page_number.value == 1) {
+            var button = document.getElementById('next_button');
+            button.style.visibility = "hidden";
+        }
+    }
+
+    function nextPage(){
+        var current_page = document.getElementById('current_number');
+        var page_number = document.getElementById('page_number');
+        current_page.value = Number(current_page.value)+1;
+        for(var i = 0; i < 3; ++i){
+            if( (Number(current_page.value)-1)*3 + i >= goods_list.length) {
+                for(; i < 3; ++i){
+                    var good = document.getElementById('good'+i);
+                    good.style.visibility="hidden";
+                }
+                break;
+            }
+            var good_name = document.getElementById('good'+i+'_name');
+            var good_price = document.getElementById('good'+i+'_price');
+            var good_photo = document.getElementById('good'+i+'_photo');
+            good_name.value = goods_list[(Number(current_page.value)-1)*3+i].name;
+            good_price.value = goods_list[(Number(current_page.value)-1)*3+i].price;
+            good_photo.name = goods_list[(Number(current_page.value)-1)*3+i].goods_ID;
+        }
+        if(current_page.value == page_number.value){
+            var button = document.getElementById('next_button');
+            button.style.visibility = "hidden";
+        }
+        if(current_page.value == 2){
+            var button = document.getElementById('last_button');
+            button.style.visibility = "visible";
+        }
+    }
+
+    function lastPage(){
+        var current_page = document.getElementById('current_number');
+        var page_number = document.getElementById('page_number');
+        current_page.value = Number(current_page.value)-1;
+        for(var i = 0; i < 3; ++i){
+            var good = document.getElementById('good'+i);
+            var good_name = document.getElementById('good'+i+'_name');
+            var good_price = document.getElementById('good'+i+'_price');
+            var good_photo = document.getElementById('good'+i+'_photo');
+            good.style.visibility = "visible";
+            good_name.value = goods_list[(Number(current_page.value)-1)*3+i].name;
+            good_price.value = goods_list[(Number(current_page.value)-1)*3+i].price;
+            good_photo.name = goods_list[(Number(current_page.value)-1)*3+i].goods_ID;
+        }
+        if(current_page.value == 1){
+            var button = document.getElementById('last_button');
+            button.style.visibility = "hidden";
+        }
+        if(current_page.value == Number(page_number.value)-1){
+            var button = document.getElementById('next_button');
+            button.style.visibility = "visible";
+        }
+    }
+
+    function goods_detail(id){
+        var form = document.getElementById("picture_form");
+        var userID = document.getElementById('userID');
+        var goodsID = id;
+        form.userID.value = userID.value;
+        form.goods_ID.value = goodsID;
+        form.submit();
+    }
+
+    window.onload = init()
+</script>
